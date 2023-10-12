@@ -5,7 +5,7 @@ FULL_PATH="/opt/plexupdate"
 CONFIGFILE="/etc/plexupdate.conf"
 CONFIGCRON="/etc/plexupdate.cron.conf"
 CRONWRAPPER="/etc/cron.daily/plexupdate"
-VERBOSE=yes #to be inherited by get-plex-token, do not save to config
+VERBOSE=yes
 
 # default options
 AUTOINSTALL=yes
@@ -17,16 +17,16 @@ CONFIGVARS="AUTOINSTALL AUTODELETE DOWNLOADDIR TOKEN FORCE FORCEALL PUBLIC AUTOS
 CRONVARS="CONF SCRIPT LOGGING"
 
 install() {
-	echo "'$req' is required but not installed, attempting to install..."
-	sleep 1
+    echo "'$req' is required but not installed, attempting to install..."
+    sleep 1
 
-	[ -z "$DISTRO_INSTALL" ] && check_distro
+    [ -z "$DISTRO_INSTALL" ] && check_distro
 
-	if [ $EUID -ne 0 ]; then
-		sudo $DISTRO_INSTALL $1 || abort "Failed while trying to install '$1'. Please install it manually and try again."
-	else
-		$DISTRO_INSTALL $1 || abort "Failed while trying to install '$1'. Please install it manually and try again."
-	fi
+    if [ "$EUID" -ne 0 ]; then
+        sudo "$DISTRO_INSTALL" "$1" || abort "Failed while trying to install '$1'. Please install it manually and try again."
+    else
+        $DISTRO_INSTALL "$1" || abort "Failed while trying to install '$1'. Please install it manually and try again."
+    fi
 }
 
 check_distro() {
