@@ -4,6 +4,7 @@ ORIGIN_REPO="https://github.com/mrworf/plexupdate"  # Default GitHub repository
 FULL_PATH="/opt/plexupdate"  # Default installation directory
 
 # Function to install plexupdate
+# Function to install or update plexupdate
 install_plexupdate() {
     if [ ! -d "${FULL_PATH}/.git" ]; then
         echo "Cloning plexupdate repository into '$FULL_PATH'... "
