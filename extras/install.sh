@@ -43,3 +43,4 @@ configure_cron
 # Run plexupdate with the configured settings
 echo "Running plexupdate with the configured settings... "
 "$FULL_PATH/plexupdate.sh" --config "$CONFIGFILE"
+
