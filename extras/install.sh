@@ -1,22 +1,13 @@
 #!/bin/bash
 
-ORIGIN_REPO="https://github.com/${GIT_OWNER:-mrworf}/plexupdate"
-FULL_PATH="/opt/plexupdate"
-CONFIGFILE="/etc/plexupdate.conf"
-CONFIGCRON="/etc/plexupdate.cron.conf"
-CRONWRAPPER="/etc/cron.daily/plexupdate"
-VERBOSE=yes
+ORIGIN_REPO="https://github.com/mrworf/plexupdate"  # Default GitHub repository
+FULL_PATH="/opt/plexupdate"  # Default installation directory
 
-# Default options
-AUTOINSTALL=yes
-AUTOUPDATE=yes
-PUBLIC=
-DISTRO_INSTALL="apt install"  # Default distro installation command
-
+# Function to install plexupdate
 install_plexupdate() {
     if [ ! -d "${FULL_PATH}/.git" ]; then
         echo "Cloning plexupdate repository into '$FULL_PATH'... "
-        git clone --branch "${BRANCHNAME:-master}" "$ORIGIN_REPO" "$FULL_PATH" || exit 1
+        git clone --branch "master" "$ORIGIN_REPO" "$FULL_PATH" || exit 1
         echo "Clone completed."
     else
         echo "Plexupdate repository already exists in '$FULL_PATH', updating... "
@@ -27,20 +18,9 @@ install_plexupdate() {
     fi
 }
 
-configure_plexupdate() {
-    # Configuration logic here (assuming default values for now)
-}
-
-configure_cron() {
-    # Configuration logic here (assuming default values for now)
-}
-
 # Installation logic
 install_plexupdate
-configure_plexupdate
-configure_cron
 
 # Run plexupdate with the configured settings
 echo "Running plexupdate with the configured settings... "
-"$FULL_PATH/plexupdate.sh" --config "$CONFIGFILE"
-
+"$FULL_PATH/plexupdate.sh" --config "/etc/plexupdate.conf"
