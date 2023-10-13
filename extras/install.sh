@@ -10,6 +10,11 @@ AUTOUPDATE="${PLEXUPDATE_AUTOUPDATE:-yes}"
 PUBLIC="${PLEXUPDATE_PUBLIC:-}"
 
 install_plexupdate() {
+# Remove the existing directory if it exists
+    if [ -d "$FULL_PATH" ]; then
+        echo "Removing existing directory: $FULL_PATH"
+        rm -rf "$FULL_PATH"
+    fi
     if [ ! -d "${FULL_PATH}/.git" ]; then
         echo "Cloning plexupdate repository into '$FULL_PATH'... "
         git clone --branch "${BRANCHNAME:-master}" "$ORIGIN_REPO" "$FULL_PATH" || exit 1
