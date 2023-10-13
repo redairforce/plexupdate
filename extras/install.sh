@@ -12,7 +12,8 @@ install_plexupdate() {
     else
         echo "Plexupdate repository already exists in '$FULL_PATH', updating... "
         cd "$FULL_PATH" || exit 1
-        git pull || exit 1
+        git fetch origin
+        git reset --hard origin/master || exit 1
         echo "Update completed."
         cd - || exit 1
     fi
