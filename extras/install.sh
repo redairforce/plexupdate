@@ -110,18 +110,21 @@ install_plexupdate() {
 		read -e -p "Directory to install into: " -i "/opt/plexupdate" FULL_PATH
 	done
 
-	if [ ! -d "$FULL_PATH" ]; then
-		echo -n "'$FULL_PATH' doesn't exist, attempting to create... "
-		if ! mkdir -p "$FULL_PATH" 2>/dev/null; then
-			sudo mkdir -p "$FULL_PATH" || abort "failed, cannot continue"
-			sudo chown $(id -u):$(id -g) "$FULL_PATH" || abort "failed, cannot continue"
-		fi
-		echo "done"
+	if [ -z "$FULL_PATH" ]; then
+	    abort "FULL_PATH variable is not set or empty, cannot continue"
+	elif [ ! -d "$FULL_PATH" ]; then
+	    echo -n "'$FULL_PATH' doesn't exist, attempting to create... "
+    	if ! mkdir -p "$FULL_PATH" 2>/dev/null; then
+	        sudo mkdir -p "$FULL_PATH" || abort "failed, cannot continue"
+	        sudo chown $(id -u):$(id -g) "$FULL_PATH" || abort "failed, cannot continue"
+    	fi
+	    echo "done"
 	elif [ ! -w "$FULL_PATH" ]; then
-		echo -n "'$FULL_PATH' exists, but you don't have permission to write to it. Changing owner... "
-		sudo chown $(id -u):$(id -g) "$FULL_PATH" || abort "failed, cannot continue"
-		echo "done"
+	    echo -n "'$FULL_PATH' exists, but you don't have permission to write to it. Changing owner... "
+	    sudo chown $(id -u):$(id -g) "$FULL_PATH" || abort "failed, cannot continue"
+	    echo "done"
 	fi
+
 
 	if [ -d "${FULL_PATH}/.git" ]; then
 		cd "$FULL_PATH"
